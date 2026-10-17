@@ -406,6 +406,7 @@
     opts = opts || {};
     var test = opts.mode === 'test';
     var box = el('div', 'task');
+    box.setAttribute('data-id', task.id);
     var rec = S.task(task.id);
     if (!test && rec && rec.s === 1) box.classList.add('solved');
     var head = '<div class="task-h"><span class="task-n">' + (opts.label || '№ ' + num) + '</span>' + dots(task.d || 1) +
