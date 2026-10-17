@@ -1,9 +1,24 @@
 /* Общие макросы KaTeX: используются и на сайте, и при проверке формул сборщиком. */
 (function (root, factory) {
   if (typeof module === 'object' && module.exports) module.exports = factory();
-  else root.TEX_MACROS = factory();
+  else { var m = factory(); root.TEX_FIX = m.__fix; delete m.__fix; root.TEX_MACROS = m; }
 })(typeof self !== 'undefined' ? self : this, function () {
+  // «·» внутри \text{…} KaTeX не понимает: превращаем в \cdot вне текста
+  function fix(src) {
+    if (src.indexOf('·') < 0) return src;
+    var out = '', depth = -1, d = 0;
+    for (var i = 0; i < src.length; i++) {
+      var c = src[i];
+      if (src.slice(i, i + 6) === '\\text{' && depth < 0) { out += '\\text{'; i += 5; d++; depth = d; continue; }
+      if (c === '{') d++;
+      if (c === '}') { if (d === depth) depth = -1; d--; }
+      if (c === '·') { out += depth >= 0 ? '}\\cdot\\text{' : '\\cdot '; continue; }
+      out += c;
+    }
+    return out;
+  }
   return {
+    __fix: fix,
     '\\R': '\\mathbb{R}', '\\N': '\\mathbb{N}', '\\Z': '\\mathbb{Z}', '\\Q': '\\mathbb{Q}', '\\Cx': '\\mathbb{C}',
     '\\tg': '\\operatorname{tg}', '\\ctg': '\\operatorname{ctg}', '\\arctg': '\\operatorname{arctg}', '\\arcctg': '\\operatorname{arcctg}',
     '\\sh': '\\operatorname{sh}', '\\ch': '\\operatorname{ch}', '\\th': '\\operatorname{th}', '\\cth': '\\operatorname{cth}',

@@ -11,6 +11,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const katex = require(path.join(ROOT, 'vendor/katex/katex.min.js'));
 const Expr = require(path.join(ROOT, 'js/expr.js'));
 const MACROS = require(path.join(ROOT, 'js/tex-macros.js'));
+const texFix = MACROS.__fix; delete MACROS.__fix;
 
 const errors = [];
 const warnings = [];
@@ -46,7 +47,7 @@ function inline(text, where) {
         j++;
       }
       if (j >= text.length) { errors.push(`${where}: незакрытый $ в «${text.slice(i, i + 60)}»`); out += esc(text.slice(i)); break; }
-      const tex = text.slice(i + open, j).trim();
+      const tex = texFix(text.slice(i + open, j).trim());
       checkTex(tex, dbl, where);
       out += dbl ? `<span class="tex-d">${esc(tex)}</span>` : `<span class="tex">${esc(tex)}</span>`;
       i = j + open;
@@ -148,13 +149,14 @@ function blocks(lines, where, ctx) {
         if (i < lines.length) buf += '\n' + lines[i].trim();
         else errors.push(`${where}: незакрытая формула $$`);
       }
-      const tex = buf.slice(2, -2).trim();
+      const tex = texFix(buf.slice(2, -2).trim());
       checkTex(tex, true, where);
       html += `<div class="tex-d">${esc(tex)}</div>\n`;
       i++; continue;
     }
     if ((m = /^\[\[(\w[\w-]*)\s*(.*)\]\]$/.exec(t))) {
       flush();
+      checkWidget(m[1], m[2], where);
       html += `<div class="widget" data-w="${esc(m[1])}" data-a="${esc(m[2])}"></div>\n`;
       i++; continue;
     }
@@ -211,6 +213,30 @@ function blocks(lines, where, ctx) {
   }
   flush();
   return html;
+}
+
+// ---------- проверка чертежей ----------
+const WIDGETS = ['plot', 'plotter', 'unitcircle', 'tangent', 'riemann', 'taylor', 'fourier', 'projectile', 'charges', 'oscillator', 'vectors', 'complex', 'phase', 'binom', 'lens', 'implicit', 'curve'];
+function checkWidget(name, args, where) {
+  if (!WIDGETS.includes(name)) { errors.push(`${where}: неизвестный чертёж ${name}`); return; }
+  const parts = args.split('|').map((x) => x.trim());
+  const strip = (x) => x.replace(/^\s*[a-zA-Z]\s*(\([^)]*\))?\s*=\s*/, '');
+  try {
+    if (name === 'plot') {
+      const params = [];
+      parts.slice(2).forEach((p) => { if (/=/.test(p)) p.split(',').forEach((q) => { const mm = /^\s*(\w+)\s*=/.exec(q); if (mm) params.push(mm[1]); }); });
+      parts[0].split(';').filter((x) => x.trim()).forEach((f) => Expr.parse(strip(f), { vars: ['x', ...params] }));
+    } else if (name === 'tangent' || name === 'riemann') {
+      Expr.parse(strip(parts[0]), { vars: ['x'] });
+    } else if (name === 'implicit') {
+      parts[0].split(';').forEach((f) => f.split('=').forEach((side) => Expr.parse(side, { vars: ['x', 'y'] })));
+    } else if (name === 'curve') {
+      parts[0].split(';').forEach((f) => Expr.parse(f, { vars: ['t'] }));
+    }
+    (parts[1] || '').split(/\s+/).filter(Boolean).forEach((x) => { if (name !== 'taylor' && name !== 'fourier' && name !== 'phase') Expr.evalNum(x); });
+  } catch (e) {
+    errors.push(`${where}: чертёж ${name} «${args.slice(0, 60)}»: ${e.message}`);
+  }
 }
 
 // ---------- задачи ----------

@@ -111,7 +111,7 @@
       e.dataset.r = '1';
     });
   }
-  function tex(src, display) { return '<span class="' + (display ? 'tex-d' : 'tex') + '">' + esc(src) + '</span>'; }
+  function tex(src, display) { return '<span class="' + (display ? 'tex-d' : 'tex') + '">' + esc(window.TEX_FIX ? TEX_FIX(src) : src) + '</span>'; }
 
   var toastTimer;
   function toast(msg) {
