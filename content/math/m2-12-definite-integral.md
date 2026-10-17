@@ -24,7 +24,7 @@ $$\sigma=\sum_{i=1}^nf(\xi_i)\,\Delta x_i.$$
 - Аддитивность: $\int_a^b=\int_a^c+\int_c^b$.
 - $\int_a^b=-\int_b^a$, $\int_a^a=0$.
 - Оценка: если $m\le f\le M$, то $m(b-a)\le\int_a^bf\le M(b-a)$.
-- **Теорема о среднем**: $\int_a^bf(x)dx=f(c)(b-a)$ для некоторого $c$. Число $\frac1{b-a}\int_a^bf\,dx$ — среднее значение функции.
+- **Теорема о среднем**: если $f$ непрерывна на $[a;b]$, то $\int_a^bf(x)dx=f(c)(b-a)$ для некоторого $c\in[a;b]$. Число $\frac1{b-a}\int_a^bf\,dx$ — среднее значение функции.
 
 ## Формула Ньютона — Лейбница
 
@@ -67,7 +67,7 @@ $t=1-x^2$, $dt=-2x\,dx$; $x=0\to t=1$, $x=1\to t=0$: $\frac12\int_0^1\sqrt t\,dt
 - Работа переменной силы: $A=\int F(x)\,dx$. Растяжение пружины: $\int_0^xkx\,dx=\frac{kx^2}2$.
 - Путь: $s=\int v(t)\,dt$. Заряд: $q=\int I(t)\,dt$.
 - Масса неоднородного стержня: $m=\int\rho(x)\,dx$; центр масс $x_c=\frac{\int x\rho\,dx}{\int\rho\,dx}$.
-- Давление на вертикальную плотину: $F=\int\rho g h\cdot w(h)\,dh$.
+- Сила давления воды на вертикальную плотину: $F=\int\rho g h\cdot w(h)\,dh$.
 
 :::formulas
 - $\int_a^bf\,dx=\lim\sum f(\xi_i)\Delta x_i$ — определение

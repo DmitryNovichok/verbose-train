@@ -416,6 +416,17 @@
     if (!isFinite(a) || !isFinite(b)) return false;
     return Math.abs(a - b) <= Math.max(tol.abs, tol.rel * Math.abs(b)) + 1e-12;
   }
+  // десятичная запись с ≥3 значащими цифрами, совпадающая с ответом, округлённым до того же разряда
+  // (0,135 для e^{-2}, 1,39 для 2ln2) — верна, даже если не укладывается в допуск
+  function roundedOk(src, v, ref) {
+    var m = /^[−-]?(\d+)(?:[.,](\d+))?$/.exec(src.replace(/\s+/g, ''));
+    if (!m || !isFinite(ref)) return false;
+    var dec = m[2] || '';
+    var sig = (m[1] + dec).replace(/^0+/, '');
+    if (!dec) sig = sig.replace(/0+$/, '');
+    if (sig.length < 3) return false;
+    return Math.abs(v - ref) <= 0.5 * Math.pow(10, -dec.length) * (1 + 1e-9) + 1e-12;
+  }
   function evalNum(str, opts) {
     var ast = parse(str, opts);
     var v = compile(ast)({});
@@ -475,7 +486,7 @@
         var v = evalNum(stripLhs(raw));
         if (isNaN(v)) return { error: 'Выражение не имеет числового значения' };
         var ref = evalNum(task.answer);
-        return { ok: close(v, ref, parseTol(task.tol, task.defTol)), value: v };
+        return { ok: close(v, ref, parseTol(task.tol, task.defTol)) || roundedOk(stripLhs(raw), v, ref), value: v };
       }
       if (type === 'set' || type === 'tuple') {
         var refEmpty = EMPTY.test(String(task.answer).trim());
