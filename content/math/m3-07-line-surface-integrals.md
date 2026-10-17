@@ -11,11 +11,11 @@ summary: Интегралы по длине кривой и работа пол�
 ## Криволинейный интеграл I рода
 
 Интеграл по длине кривой: $\int_Lf\,dl$. Смысл — масса проволоки с линейной плотностью $f$; при $f=1$ — длина кривой. Если кривая задана параметрически $\vec r(t)$, $t\in[\alpha;\beta]$:
-$$\int_Lf\,dl=\int_\alpha^\beta f(\vec r(t))\,|\vec r\,'(t)|\,dt,\qquad|\vec r\,'|=\sqrt{x'^2+y'^2+z'^2}.$$
+$$\int_Lf\,dl=\int_\alpha^\beta f(\vec r(t))\,|{\vec r}'(t)|\,dt,\qquad|{\vec r}'|=\sqrt{x'^2+y'^2+z'^2}.$$
 От направления обхода не зависит.
 
 :::example Найдите длину витка винтовой линии $\vec r=(\cos t;\sin t;t)$, $t\in[0;2\pi]$.
-$|\vec r\,'|=\sqrt{\sin^2t+\cos^2t+1}=\sqrt2$. Длина $2\pi\sqrt2$.
+$|{\vec r}'|=\sqrt{\sin^2t+\cos^2t+1}=\sqrt2$. Длина $2\pi\sqrt2$.
 :::
 
 ## Криволинейный интеграл II рода
@@ -58,7 +58,7 @@ $\vec n$ — единичная нормаль с выбранной сторо�
 :::
 
 :::formulas
-- $\int_Lf\,dl=\int f(\vec r(t))|\vec r\,'(t)|\,dt$ — интеграл I рода
+- $\int_Lf\,dl=\int f(\vec r(t))|{\vec r}'(t)|\,dt$ — интеграл I рода
 - $\int_L\vec F\cdot d\vec r=\int(Px'+Qy'+Rz')\,dt$ — работа поля
 - $\oint_LP\,dx+Q\,dy=\iint_D(Q'_x-P'_y)\,dx\,dy$ — формула Грина
 - $S=\dfrac12\oint x\,dy-y\,dx$ — площадь через контур
