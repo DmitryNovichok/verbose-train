@@ -332,6 +332,7 @@
     tanh: '\\operatorname{th}', th: '\\operatorname{th}', cth: '\\operatorname{cth}', coth: '\\operatorname{cth}', ln: '\\ln', lg: '\\lg', exp: '\\exp', sign: '\\operatorname{sign}', sgn: '\\operatorname{sign}',
     sec: '\\sec', csc: '\\csc', log2: '\\log_2', log10: '\\log_{10}', min: '\\min', max: '\\max', floor: '\\operatorname{floor}', ceil: '\\operatorname{ceil}', round: '\\operatorname{round}' };
   function prec(ast) {
+    if (ast.t === 'par') return prec(ast.a);
     if (ast.t === 'bin') return ast.op === '+' || ast.op === '-' ? 1 : 2;
     if (ast.t === 'neg') return 1.5;
     if (ast.t === 'pow') return 3;
@@ -374,6 +375,7 @@
         if (prec(r) < p || (ast.op === '-' && prec(r) === p) || r.t === 'neg' || (ast.op === '+' && r.t === 'num' && r.v < 0)) rs = wrap(rs);
         if (ast.op === '*') {
           var lf = r; while (lf.t === 'bin' || lf.t === 'pow') lf = lf.a;
+          if (l.t === 'num' && lf.t !== 'num' && lf.t !== 'neg' && rs.indexOf('\\left(') === 0) return ls + rs;
           if (lf.t === 'num' || lf.t === 'neg' || rs.indexOf('\\left(') === 0) return ls + ' \\cdot ' + rs;
           if (l.t === 'num') return ls + rs;
           if (r.t === 'fn' || r.t === 'par' || (r.t === 'pow' && r.a.t !== 'var' && r.a.t !== 'const')) return ls + '\\,' + rs;
