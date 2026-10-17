@@ -79,6 +79,7 @@ $\frac1\lambda$.
 @task num 2
 Найдите вероятность того, что тот же прибор проработает больше 2 часов.
 @answer exp(-1)
+@tol 1%
 @solution
 $e^{-0{,}5\cdot2}\approx0{,}37$.
 
@@ -91,6 +92,7 @@ $20\cdot0{,}3\cdot0{,}7$.
 @task num 1
 $X$ — пуассоновская с $\lambda=3$. Найдите $P(X=0)$.
 @answer exp(-3)
+@tol 0.001
 @solution
 $\approx0{,}05$.
 

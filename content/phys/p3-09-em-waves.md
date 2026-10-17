@@ -85,7 +85,7 @@ $B=\frac Ec=10^{-6}$ Тл.
 @answer 0.5*3e8*8.85e-12*9e4
 @unit Вт/м²
 @solution
-$\frac12c\varepsilon_0E_0^2\approx0{,}12$ Вт/м².
+$\frac12c\varepsilon_0E_0^2=\frac12\cdot3\cdot10^8\cdot8{,}85\cdot10^{-12}\cdot9\cdot10^4\approx120$ Вт/м².
 
 @task num 2
 Интенсивность солнечного света 1360 Вт/м². Найдите амплитуду электрического поля.
@@ -102,7 +102,7 @@ $E_0=\sqrt{\frac{2I}{c\varepsilon_0}}\approx1{,}01\cdot10^3$ В/м.
 $\frac Ic\approx4{,}5\cdot10^{-6}$ Па.
 
 @task num 1
-Найдите давление того же света на зеркальную поверхность.
+Найдите давление солнечного света (1360 Вт/м²) на зеркальную поверхность.
 @answer 2*1360/3e8
 @unit Па
 @solution

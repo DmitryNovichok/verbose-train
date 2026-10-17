@@ -69,7 +69,7 @@ $\ddot\varphi=-\omega^2\sin\varphi$, или $\dot\varphi=\psi$, $\dot\psi=-\omeg
 - $\vec f(\vec x^*)=0$ — положение равновесия
 - $J=\left(\frac{\partial f_i}{\partial x_j}\right)$ — матрица линеаризации
 - $\operatorname{Re}\lambda_i<0$ для всех $i$ — асимптотическая устойчивость
-- $\det<0$ — седло; $\operatorname{tr}^2<4\det$ — фокус; $\operatorname{tr}=0$ — центр
+- $\det<0$ — седло; $\operatorname{tr}^2<4\det,\ \operatorname{tr}\ne0$ — фокус; $\operatorname{tr}=0,\ \det>0$ — центр
 - $a_i>0,\ a_1a_2>a_0a_3$ — критерий Гурвица для $n=3$
 - $V>0,\ \dot V<0$ — функция Ляпунова
 :::
@@ -139,7 +139,7 @@ $f'(x)=1-2x$: $f'(0)=1>0$ (неустойчиво), $f'(1)=-1<0$ (устойчи
 $\dot V=2x\dot x+2y\dot y=-2(x^2+y^2)<0$.
 
 @task num 2
-Система $\dot x=y$, $\dot y=-4x-cy$. При каком $c$ фокус переходит в узел?
+Система $\dot x=y$, $\dot y=-4x-cy$, где $c>0$ (трение). При каком $c$ фокус переходит в узел?
 @answer 4
 @solution
 $\lambda^2+c\lambda+4=0$, дискриминант $c^2-16=0$: $c=4$ (критическое затухание).
