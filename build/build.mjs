@@ -335,9 +335,13 @@ function frontMatter(src, where) {
   return { meta, body: src.slice(m[0].length) };
 }
 
+// черновые оговорки, которые не должны попасть в текст
+const DRAFT = /(\.\.\.\s*(нет|точнее)\b|\bСтоп\b|Пересчита|Проверим ещё раз)/;
+
 function buildTopic(file, subject) {
   const where = path.relative(ROOT, file);
   const src = fs.readFileSync(file, 'utf8').replace(/\r\n/g, '\n');
+  src.split('\n').forEach((l, i) => { if (DRAFT.test(l)) errors.push(`${where}:${i + 1}: черновая оговорка в тексте: «${l.slice(0, 70)}»`); });
   const { meta, body } = frontMatter(src, where);
   const parts = body.split(/^@tasks\s*$/m);
   const ctx = { toc: [], formulas: [] };
