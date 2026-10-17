@@ -281,6 +281,10 @@ function parseTasks(lines, where, prefix, defTol) {
       cur[field] = m[2] ? [m[2]] : [];
       continue;
     }
+    if (/^@\w+/.test(t) && !/^@(answer|tol|unit|vars|range|hint|solution|opt\*?)\b/.test(t)) {
+      errors.push(`${where} задача ${tasks.length + 1}: неизвестное поле «${t.split(/\s/)[0]}»`);
+      continue;
+    }
     if ((m = /^@opt(\*?)\s+(.*)$/.exec(t))) {
       cur.opts.push({ ok: m[1] === '*', text: m[2] });
       field = null;
